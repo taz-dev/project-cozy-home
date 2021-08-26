@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 데이터베이스 접근 및 결과를 반환받는 속성파일 -->
+<mapper namespace="i">
+
+<!--insert-->
+
+
+
+<!--select-->
+    <!-- 3 두번째 카테고리 리스트-->
+    <select id="secondList" resultType="SecondVO" parameterType="int">
+        select * from second_category where first_idx = #{first_idx}
+    </select>
+    <!-- 8 두번째 카테고리 리스트정보-->
+    <select id="seconditemList" resultType="ItemEntity" parameterType="int">
+        select * from item where second_idx =#{second_idx}
+    </select>
+<!--update-->
+    <!-- 1 아이템 정보 수정 (넣었다가 지우기 업데이트문오류)-->
+
+<!--delete-->
+
+</mapper>
+
+
+
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 데이터베이스 접근 및 결과를 반환받는 속성파일 -->
+<mapper namespace="i">
+
+<!--insert-->
+
+    <!--아이템등록-->
+    <insert id="insertItem" parameterType="ItemVO" >
+        insert into item values(
+        seq_idx.nextVal,
+        #{secondIdx},
+        #{name},
+        #{content},
+        #{price},
+        '0',
+        SYSTIMESTAMP,
+        SYSTIMESTAMP
+        )
+    </insert>
+
+<!--select-->
+    <!-- 1 아이템하나 정보찾기  -->
+    <select id="selectOne" resultType="ItemEntity" parameterType="int">
+        select * from item where item_idx=#{item_idx}
+    </select>
+    <!-- 2 아이템정보 전부다 불러오기-->
+    <select id="selectList" resultType="ItemEntity">
+        select * from item
+    </select>
+
+    <!-- 5 인기상품 리스트 1,2,3등-->
+    <select id="itemPopList" resultType="ItemEntity">
+        select * from(select * from item order by sell_count desc) where rownum <![CDATA[<=]]> 10
+    </select>
+
+    <!-- 6 두번째 카테고리로 아이템리스트뽑기-->
+    <select id="seconditem" resultType="ItemVO">
+        select * from item where second_idx=#{second_idx}
+    </select>
+    <!-- 7 아이템 사진 가져오기-->
+    <select id="selectSrcOne" resultType="String" parameterType="int">
+        select src from src_image where item_idx =#{item_idx} and main = 1
+    </select>
+<!--update-->
+    <!-- 1 아이템 정보 수정 (넣었다가 지우기 업데이트문오류)-->
+    <insert id="updateItem" parameterType="UpdateItemVO">
+        insert into item values(
+        #{item_idx},
+        #{second_idx},
+        #{name},
+        #{content},
+        #{price},
+        #{create_date},
+        SYSTIMESTAMP,
+        #{sell_count}
+        )
+    </insert>
+<!--delete-->
+    <!-- 1 아이템삭제-->
+    <delete id="deleteItem" parameterType="int">
+        DELETE FROM item WHERE item_idx = #{idx}
+    </delete>
+</mapper>
+
+
+
+

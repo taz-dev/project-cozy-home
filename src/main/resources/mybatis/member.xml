@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="m">
+
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="InsertVO">
+	    insert into member values( 
+	    	seq_mem.nextVal,
+	        #{id}, 
+	        #{pw},
+	        #{name},
+	        #{addr},
+	        #{tel},
+			'0',
+			#{addr_detail}
+	    )
+    </insert>
+    
+    <!-- 로그인 -->
+	<select id="login" resultType="LoginVO" parameterType="LoginVO">
+		select * from member where id = #{id}
+	</select>
+	
+	<!-- MemberEntity -->
+	<select id="selectMember" resultType="MemberEntity" parameterType="int">
+		select * from member where mem_idx = #{idx}
+	</select>
+	
+	<!-- 회원정보수정 -->
+	<insert id="updateMember" parameterType="InsertVO">
+		insert into member values(
+			#{ mem_idx },
+			#{ id },
+			#{ pw },
+			#{ name },
+			#{ addr },
+			#{ tel }
+		)
+	</insert>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="memberDelete" parameterType="int">
+		delete from member where mem_idx = #{idx}
+	</delete>
+	<!--연습용-->
+	<select id="test" resultType="InsertVO">
+		select * from member
+	</select>
+	<!--auth토큰 확인-->
+	<select id="authMember" resultType="MemberEntity" parameterType="String">
+		select * from member where id = #{id}
+	</select>
+	<!--id check-->
+	<select id="idCheckMember" resultType="int" parameterType="String">
+		select * from member where id = #{id}
+	</select>
+
+</mapper>

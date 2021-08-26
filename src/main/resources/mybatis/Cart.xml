@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 데이터베이스 접근 및 결과를 반환받는 속성파일 -->
+<mapper namespace="c">
+
+    <!--insert-->
+    <insert id="insertCart" parameterType="CartVO">
+        insert into cart
+        values ( seq_cart.nextval,
+                 #{mem_idx},
+                 #{item_idx},
+                 '0'                  )
+    </insert>
+
+    <!-- select -->
+    <select id="selectOneCart" resultType="CartEntity" parameterType="int">
+        select * from cart where cart_idx = #{cart_idx}
+    </select>
+
+    <!--update-->
+    <update id="upCount" parameterType="CartVO">
+        update cart set itemcount = itemcount + 1
+        where mem_idx = #{mem_idx} and item_idx = #{item_idx}
+    </update>
+
+    <update id="downCount" parameterType="CartVO">
+        update cart set itemcount = itemcount - 1
+        where mem_idx = #{mem_idx} and item_idx = #{item_idx}
+    </update>
+
+    <!--delete-->
+    <delete id="deleteCartItem" parameterType="CartVO">
+        delete from cart where exists(
+                select mem_idx from member
+                where mem_idx = #{mem_idx} )
+                           and item_idx = #{item_idx}
+    </delete>
+
+    <delete id="deleteAll" parameterType="CartVO">
+        delete from cart
+        where mem_idx = #{mem_idx}
+    </delete>
+
+
+
+    <!--    <select id="selectSrc" resultType="String" parameterType="int">
+            select src from src_image
+            where item_idx = #{item_idx} and main = 1
+        </select>-->
+
+
+</mapper>
+
+
+
+
